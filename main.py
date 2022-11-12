@@ -35,6 +35,9 @@ class tournament:
         self.final = None
         self.final_num = 0
 
+        # make a bet
+        self.bet = None
+        self.money = 0
 
     def Round_one(self):
         self.score_team_one = random.randint(0, 4)
@@ -51,7 +54,6 @@ class tournament:
 
         o1 = self.teams[1][self.team_one_number]
         o2 = self.teams[1][self.team_two_number_]
-
 
         while True:
             if self.score_team_one > self.score_team_two:
@@ -108,8 +110,36 @@ class tournament:
     def winner_check(self):
         if self.check_final is True and self.match_number_index == 4 and self.final_num == 6:
             print(f"The big winner is:\n{self.final}!!")
-            exit()
+            if self.final == self.bet:
+                self.money = self.money * 2
+                print(f"\nIts seem like you double your money you have now {self.money}")
+                qus = input("Press enter to do another bet or (e) to exit: ")
+                if qus != "e":
+                    t.Make_A_Bet()
+                else:
+                    print("Ok good bey!")
+                    exit()
+            else:
+                print("You lose all you money bey bey!")
+                exit()
+
+    def Make_A_Bet(self):
+        self.money = input("Enter how much you do you like to have: ")
+        if self.money.isdigit():
+            self.money = int(self.money)
+        else:
+            print("Pls enter a number next time!!")
+            t.Make_A_Bet()
+
+        print(f"This are the team you can bet on:\n{self.teams[1]}")
+        while True:
+            self.bet = input("Enter on who you betting your money on: ")
+            if self.bet not in self.teams[1]:
+                print("Pls pick one of the teams!\n")
+            else:
+                input(f"Ok you bet your money on {self.bet} Press enter to go to the tournament: ")
+                t.Round_one()
 
 
 t = tournament()
-t.Round_one()
+t.Make_A_Bet()
